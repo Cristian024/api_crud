@@ -37,12 +37,10 @@ function consultProduct($connection, $queryId)
     p.price AS 'price',
     (SELECT GROUP_CONCAT(l.id) FROM lot AS l WHERE p.id = l.product) AS 'lots',
     (SELECT SUM(l.quantityStock) FROM lot AS l WHERE p.id = l.product) AS 'quantityStock',
-    (SELECT SUM(l.quantityStored) FROM lot AS l WHERE p.id = l.product) AS 'quantityStored',
     (SELECT COUNT(i.url) FROM products_images AS i WHERE p.id = i.product) AS 'quantityImages',
     (SELECT GROUP_CONCAT(i.id) FROM products_images AS i WHERE p.id = i.product) AS 'images',
     (SELECT GROUP_CONCAT(i.url) FROM products_images AS i WHERE p.id = i.product) AS 'imagesURL',
     (SELECT COUNT(c.id) FROM comments AS c WHERE p.id = c.product) AS 'quantityComments',
-    (SELECT GROUP_CONCAT(c.id) FROM comments AS c WHERE p.id = c.product) AS 'comments',
     (SELECT AVG(c.rate) FROM comments AS c WHERE p.id = c.product) AS 'rate'
     FROM products p
     LEFT JOIN lot AS l ON p.id = l.product

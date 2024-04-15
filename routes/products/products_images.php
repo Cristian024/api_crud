@@ -31,7 +31,7 @@ function consultProductsImages($connection, $queryId){
     i.product AS 'product',
     p.name AS 'productName'
     FROM products_images AS i
-    INNER JOIN products AS p ON i.product = p.id
+    LEFT JOIN products AS p ON i.product = p.id
     ";
 
     if($queryId !== null) $sql .= " WHERE i.id = $queryId";
