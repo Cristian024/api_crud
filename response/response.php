@@ -18,8 +18,8 @@ function returnResponse($code, $message)
         $message = 'Server error: ' . $message . '';
     }
 
-    $error = new ResponseClass($code, $message);
+    $response = new ResponseClass($code, $message);
 
-    print_r(json_encode($error));
+    print_r(json_encode($response));
 }
 
