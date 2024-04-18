@@ -12,6 +12,12 @@ function router($route)
         case 'users':
             routeUsers($method, $connection);
             break;
+        case 'users_states':
+            routeUsersStates($method, $connection);
+            break;
+        case 'users_roles':
+            routeUsersRoles($method, $connection);
+            break;
         case 'products':
             routeProducts($method, $connection);
             break;

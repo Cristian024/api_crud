@@ -2,6 +2,8 @@
 include "./routes/functions.php";
 include "./routes/customized/custom.php";
 include "./routes/users/users.php";
+include "./routes/users/users_states.php";
+include "./routes/users/users_roles.php";
 include "./routes/products/products.php";
 include "./routes/products/products_images.php";
 include "./routes/cities/cities.php";

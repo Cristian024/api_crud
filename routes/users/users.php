@@ -15,9 +15,7 @@ $userFieldsAllowed = [
     'longitude',
     'role',
     'state',
-    'city',
-    'bancolombia',
-    'nequi'
+    'city'
 ];
 
 function routeUsers($method, $connection)
@@ -64,9 +62,7 @@ function consultUser($connection, $queryId)
         u.role AS 'roleId',
         r.name AS 'role',
         u.state AS 'idState',
-        s.name AS 'state',
-        u.bancolombia AS 'bancolombia',
-        u.nequi AS 'nequi'
+        s.name AS 'state'
     FROM
         users u
     INNER JOIN users_roles r ON
