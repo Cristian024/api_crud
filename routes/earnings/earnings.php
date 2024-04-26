@@ -32,7 +32,6 @@ function consultEarnigns($connection, $queryId){
     e.totalSale AS 'totalSale',
     e.totalEarnings AS 'totalEarnings',
     c.shipingDiscount AS 'companyDiscount',
-    c.city AS 'city',
     ci.name AS 'cityName',
     c.id AS 'company',
     c.name AS 'companyName',

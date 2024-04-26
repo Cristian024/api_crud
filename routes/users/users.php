@@ -51,6 +51,7 @@ function consultUser($connection, $queryId)
         u.email AS 'email',
         u.password AS 'password',
         u.direction AS 'direction',
+        c.name AS 'city',
         u.documentType AS 'documentType',
         u.document AS 'document',
         u.cellphone AS 'cellphone',
@@ -68,7 +69,10 @@ function consultUser($connection, $queryId)
     INNER JOIN users_roles r ON
         u.role = r.id
     INNER JOIN users_states s ON 
-	    u.state = s.id";
+	    u.state = s.id
+    LEFT JOIN cities c ON
+        u.city = c.id";
+        
 
     if ($queryId !== null) $sql .= " WHERE u.id = $queryId";
     

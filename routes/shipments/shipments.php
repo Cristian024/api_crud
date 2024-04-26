@@ -39,7 +39,6 @@ function consultShipments($connection, $queryId){
     s.shipmentUbication AS 'shipmentUbication',
     s.shipmentDate AS 'shipmentDate',
     s.deliveryDate AS 'deliveryDate',
-    s.state AS 'state',
     st.name AS 'stateName',
     s.company AS 'company',
     c.name AS 'companyName',
@@ -48,9 +47,9 @@ function consultShipments($connection, $queryId){
     s.delivery AS 'delivery',
     u.name AS 'deliveryName'
     FROM shipments AS s
-    INNER JOIN shipments_states AS st ON s.state = st.id
-    INNER JOIN companies AS c ON s.company = c.id
-    INNER JOIN cities AS ci ON c.city = ci.id
+    LEFT JOIN shipments_states AS st ON s.state = st.id
+    LEFT JOIN companies AS c ON s.company = c.id
+    LEFT JOIN cities AS ci ON c.city = ci.id
     LEFT JOIN users AS u ON s.delivery = u.id
     ";
 

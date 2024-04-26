@@ -36,7 +36,7 @@ function consultOrdersDetail($connection, $queryId){
     p.price AS 'productPrice',
     d.orderid AS 'order'
     FROM orders_detail AS d
-    INNER JOIN products AS p ON d.product = p.id
+    LEFT JOIN products AS p ON d.product = p.id
     ";
 
     if($queryId !== null) $sql .= " WHERE d.id = $queryId";

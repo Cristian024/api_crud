@@ -56,10 +56,10 @@ function consultOrders($connection, $queryId){
     (SELECT GROUP_CONCAT(od.id) FROM orders_detail AS od WHERE o.id = od.orderid) AS 'ordersDetails'
     FROM orders AS o
     LEFT JOIN cancel_order_reason AS co ON o.cancelReason = co.id
-    INNER JOIN cities AS ci ON o.city = ci.id
-    INNER JOIN payment_methods AS p ON o.paymentMethod = p.id
-    INNER JOIN orders_states AS os ON o.state = os.id
-    INNER JOIN users AS u ON o.user = u.id
+    LEFT JOIN cities AS ci ON o.city = ci.id
+    LEFT JOIN payment_methods AS p ON o.paymentMethod = p.id
+    LEFT JOIN orders_states AS os ON o.state = os.id
+    LEFT JOIN users AS u ON o.user = u.id
     LEFT JOIN orders_detail AS od ON o.id = od.orderid
     ";
 

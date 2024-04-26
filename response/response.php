@@ -20,6 +20,6 @@ function returnResponse($code, $message)
 
     $response = new ResponseClass($code, $message);
 
-    print_r(json_encode($response));
+    echo (json_encode($response));
 }
 

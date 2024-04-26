@@ -39,7 +39,7 @@ function consultDepot($connection, $queryId){
     (SELECT COUNT(l.id) FROM lot AS l WHERE d.id = l.depot) AS 'quantityLots',
     (SELECT GROUP_CONCAT(l.id) FROM lot AS l WHERE d.id = l.depot) as 'lots'
     FROM depot AS d
-    INNER JOIN cities AS c ON d.city = c.id    
+    LEFT JOIN cities AS c ON d.city = c.id    
     ";
 
     if($queryId !==null) $sql .= " WHERE d.id = $queryId";
