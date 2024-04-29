@@ -13,6 +13,7 @@ $USER_NOT_EXIST = 202;
 $INCORRECT_PASSWORD = 203;
 $USER_LOGIN = 204;
 $ADMIN_LOGIN = 205;
+$USER_UNABLE = 206;
 
 function returnResponse($code, $message)
 {

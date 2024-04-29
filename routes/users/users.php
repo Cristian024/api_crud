@@ -181,6 +181,7 @@ function loginUser($connection)
     global $INCORRECT_PASSWORD;
     global $USER_LOGIN;
     global $ADMIN_LOGIN;
+    global $USER_UNABLE;
 
     try {
         $data = json_decode(file_get_contents("php://input"), true);
@@ -189,9 +190,11 @@ function loginUser($connection)
         $consult_pass = md5($data['password']);
 
         $sql = 'SELECT 
+        u.id as id,
         u.email as email,
         u.password as password,
-        u.role as role
+        u.role as role,
+        u.state as state
         FROM users u
         WHERE u.email = "' . $consult_email . '"';
 
@@ -210,14 +213,20 @@ function loginUser($connection)
                 if ($passComparation != $consult_pass) {
                     returnResponse($INCORRECT_PASSWORD, 'Incorrect password');
                 } else {
-                    $userRole = $data[0]['role'];
-                    switch ($userRole) {
-                        case '1':
-                            returnResponse($ADMIN_LOGIN, 'Succefull Login');
-                            break;
-                        case '2':
-                            returnResponse($USER_LOGIN, 'Succefull Login');
-                            break;
+                    if ($data[0]['state'] == 1) {
+                        $userRole = $data[0]['role'];
+                        $sql = "UPDATE `users` SET `lastVisitDate` = '" . date("Y/n/d H:i:s") . "' WHERE `users`.`id` = " . $data[0]['id'] . "";
+                        $result = $connection->query($sql);
+                        switch ($userRole) {
+                            case '1':
+                                returnResponse($ADMIN_LOGIN, 'Succefull Login');
+                                break;
+                            case '2':
+                                returnResponse($USER_LOGIN, 'Succefull Login');
+                                break;
+                        }
+                    } else {
+                        returnResponse($USER_UNABLE, 'User is unable');
                     }
                 }
             }

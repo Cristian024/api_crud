@@ -55,7 +55,7 @@ function insertCompanie($connection){
 function updateCompanie($connection){
     global $companiesFieldsAllowed;
 
-    $sql = "UPDATE companies SET";
+    $sql = "UPDATE companies SET ";
     executeUpdate($connection, $companiesFieldsAllowed, $sql);
 }
 
