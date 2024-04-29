@@ -18,7 +18,7 @@ $userFieldsAllowed = [
     'city'
 ];
 
-function routeUsers($method, $connection)
+function routeUsers($method, $connection, $submethod)
 {
     global $queryId;
 
@@ -27,7 +27,15 @@ function routeUsers($method, $connection)
             consultUser($connection, $queryId);
             break;
         case "POST":
-            insertUser($connection);
+            if ($submethod !== null) {
+                switch ($submethod) {
+                    case 'register':
+                        registerUser($connection);
+                        break;
+                }
+            } else {
+                insertUser($connection);
+            }
             break;
         case "PUT":
             updateUser($connection);
@@ -44,8 +52,8 @@ function consultUser($connection, $queryId)
 {
     global $SQL_ERROR_CODE;
 
-    $sql = 
-    "SELECT
+    $sql =
+        "SELECT
         u.id AS 'id',
         u.name AS 'name',
         u.email AS 'email',
@@ -72,10 +80,11 @@ function consultUser($connection, $queryId)
 	    u.state = s.id
     LEFT JOIN cities c ON
         u.city = c.id";
-        
 
-    if ($queryId !== null) $sql .= " WHERE u.id = $queryId";
-    
+
+    if ($queryId !== null)
+        $sql .= " WHERE u.id = $queryId";
+
     executeConsult($connection, $sql);
 }
 
@@ -100,4 +109,63 @@ function deleteUser($connection)
     $sql = "DELETE FROM users ";
 
     executeDelete($connection, $sql);
+}
+
+#*************SUBMETHODS*************#
+
+$specifiedData = null;
+function registerUser($connection)
+{
+    global $SQL_ERROR_CODE;
+    global $USER_EXITS;
+    global $specifiedData;
+    global $userFieldsAllowed;
+
+    try {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $consult_email = $data['email'];
+
+        $sql = 'SELECT 
+        COUNT(u.id) as count
+        FROM users u
+        WHERE u.email = "' . $consult_email . '"';
+
+        $result = $connection->query($sql);
+
+        if ($result) {
+            $count = 0;
+            while ($row = $result->fetch_assoc()) {
+                $count = $row['count'];
+            }
+
+            if ($count > 0) {
+                returnResponse($USER_EXITS, 'User is registered');
+            } else {
+                $user = new stdClass();
+                $user->name = $data['name'];
+                $user->email = $consult_email;
+                $user->password = md5($data['password']);
+                $user->direction = "";
+                $user->documentType = "";
+                $user->document = "";
+                $user->cellphone= "";
+                $user->registerDate = date("Y/n/d");
+                $user->lastBuyDate = null;
+                $user->lastVisitDate = date("Y/n/d");
+                $user->latitude = 0;
+                $user->longitude = 0;
+                $user->role = 2;
+                $user->state = 1;
+                $user->city = null;
+
+                $specifiedData = $user;
+
+                $sql = "INSERT INTO users(";
+                executeInsert($connection, $userFieldsAllowed, $sql);
+            }
+        }
+    } catch (Exception $e) {
+        returnResponse($SQL_ERROR_CODE, $e->getMessage());
+    }
 }

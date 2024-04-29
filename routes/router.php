@@ -10,7 +10,10 @@ function router($route)
 
     switch ($route) {
         case 'users':
-            routeUsers($method, $connection);
+            routeUsers($method, $connection, null);
+            break;
+        case 'user_register':
+            routeUsers($method, $connection, 'register');
             break;
         case 'users_states':
             routeUsersStates($method, $connection);

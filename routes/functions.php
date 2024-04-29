@@ -23,11 +23,16 @@ function executeInsert($connection, $fieldsAllowed, $sql){
     global $BAD_REQUEST_CODE;
     global $SQL_ERROR_CODE;
     global $SUCCESSFLY_CODE;
+    global $specifiedData;
 
     $fields = [];
 
     try {
-        $data = json_decode(file_get_contents("php://input"), true);
+        if($specifiedData != null){
+            $data = $specifiedData;
+        }else{
+            $data = json_decode(file_get_contents("php://input"), true);
+        }
         $count = 0;
         foreach ($data as $key => $value) {
             if (in_array($key, $fieldsAllowed)) {

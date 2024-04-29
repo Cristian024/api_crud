@@ -6,6 +6,10 @@ $SQL_ERROR_CODE = 500;
 $BAD_REQUEST_CODE = 400;
 $SUCCESSFLY_CODE = 200;
 
+#LOGIN AND REGISTER CODES#
+
+$USER_EXITS = 201;
+
 function returnResponse($code, $message)
 {
     if ($code >= 200 and $code <= 300) {
