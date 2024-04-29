@@ -32,6 +32,9 @@ function routeUsers($method, $connection, $submethod)
                     case 'register':
                         registerUser($connection);
                         break;
+                    case 'login':
+                        loginUser($connection);
+                        break;
                 }
             } else {
                 insertUser($connection);
@@ -149,7 +152,7 @@ function registerUser($connection)
                 $user->direction = "";
                 $user->documentType = "";
                 $user->document = "";
-                $user->cellphone= "";
+                $user->cellphone = "";
                 $user->registerDate = date("Y/n/d");
                 $user->lastBuyDate = null;
                 $user->lastVisitDate = date("Y/n/d");
@@ -163,6 +166,60 @@ function registerUser($connection)
 
                 $sql = "INSERT INTO users(";
                 executeInsert($connection, $userFieldsAllowed, $sql);
+            }
+        }
+    } catch (Exception $e) {
+        returnResponse($SQL_ERROR_CODE, $e->getMessage());
+    }
+}
+
+function loginUser($connection)
+{
+    global $SQL_ERROR_CODE;
+    global $USER_NOT_EXIST;
+    global $SUCCESSFLY_CODE;
+    global $INCORRECT_PASSWORD;
+    global $USER_LOGIN;
+    global $ADMIN_LOGIN;
+
+    try {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $consult_email = $data['email'];
+        $consult_pass = md5($data['password']);
+
+        $sql = 'SELECT 
+        u.email as email,
+        u.password as password,
+        u.role as role
+        FROM users u
+        WHERE u.email = "' . $consult_email . '"';
+
+        $result = $connection->query($sql);
+
+        if ($result) {
+            $data = array();
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+
+            if (sizeof($data) < 1) {
+                returnResponse($USER_NOT_EXIST, "User don't exist");
+            } else {
+                $passComparation = $data[0]['password'];
+                if ($passComparation != $consult_pass) {
+                    returnResponse($INCORRECT_PASSWORD, 'Incorrect password');
+                } else {
+                    $userRole = $data[0]['role'];
+                    switch ($userRole) {
+                        case '1':
+                            returnResponse($ADMIN_LOGIN, 'Succefull Login');
+                            break;
+                        case '2':
+                            returnResponse($USER_LOGIN, 'Succefull Login');
+                            break;
+                    }
+                }
             }
         }
     } catch (Exception $e) {

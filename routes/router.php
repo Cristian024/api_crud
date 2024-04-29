@@ -15,6 +15,9 @@ function router($route)
         case 'user_register':
             routeUsers($method, $connection, 'register');
             break;
+        case 'user_login':
+            routeUsers($method, $connection, 'login');
+            break;
         case 'users_states':
             routeUsersStates($method, $connection);
             break;
