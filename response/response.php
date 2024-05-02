@@ -17,6 +17,8 @@ $USER_UNABLE = 206;
 
 function returnResponse($code, $message)
 {
+    global $insertDataId;
+
     if ($code >= 200 and $code <= 300) {
         $message = 'Succesfull response: ' . $message . '';
     }
@@ -27,8 +29,15 @@ function returnResponse($code, $message)
         $message = 'Server error: ' . $message . '';
     }
 
+    $responseData = new stdClass();
     $response = new ResponseClass($code, $message);
 
-    echo (json_encode($response));
+    $responseData->status = $response->status;
+    $responseData->message = $response->message;
+    if($insertDataId !== null){
+        $responseData->insertId = $insertDataId;
+    }
+
+    echo (json_encode($responseData));
 }
 

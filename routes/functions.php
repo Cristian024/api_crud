@@ -19,11 +19,13 @@ function executeConsult($connection, $sql){
     }
 }
 
+$insertDataId;
 function executeInsert($connection, $fieldsAllowed, $sql){
     global $BAD_REQUEST_CODE;
     global $SQL_ERROR_CODE;
     global $SUCCESSFLY_CODE;
     global $specifiedData;
+    global $insertDataId;
 
     $fields = [];
 
@@ -72,6 +74,7 @@ function executeInsert($connection, $fieldsAllowed, $sql){
         $result = $connection->query($sql);
 
         if ($result) {
+            $insertDataId = $connection->insert_id;
             returnResponse($SUCCESSFLY_CODE, 'Entity successfully added');
         } else {
             returnResponse($SQL_ERROR_CODE, 'Entity could not be inserted');
