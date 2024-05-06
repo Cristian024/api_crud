@@ -1,7 +1,5 @@
 <?php
 
-require "responseClass.php";
-
 $SQL_ERROR_CODE = 500;
 $BAD_REQUEST_CODE = 400;
 $SUCCESSFLY_CODE = 200;
@@ -18,6 +16,7 @@ $USER_UNABLE = 206;
 function returnResponse($code, $message)
 {
     global $insertDataId;
+    global $userId;
 
     if ($code >= 200 and $code <= 300) {
         $message = 'Succesfull response: ' . $message . '';
@@ -30,12 +29,14 @@ function returnResponse($code, $message)
     }
 
     $responseData = new stdClass();
-    $response = new ResponseClass($code, $message);
 
-    $responseData->status = $response->status;
-    $responseData->message = $response->message;
+    $responseData->status = $code;
+    $responseData->message = $message;
     if($insertDataId !== null){
         $responseData->insertId = $insertDataId;
+    }
+    if($userId !== null){
+        $responseData->userId = $userId;
     }
 
     echo (json_encode($responseData));

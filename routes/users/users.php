@@ -173,6 +173,7 @@ function registerUser($connection)
     }
 }
 
+$userId;
 function loginUser($connection)
 {
     global $SQL_ERROR_CODE;
@@ -182,6 +183,7 @@ function loginUser($connection)
     global $USER_LOGIN;
     global $ADMIN_LOGIN;
     global $USER_UNABLE;
+    global $userId;
 
     try {
         $data = json_decode(file_get_contents("php://input"), true);
@@ -215,6 +217,7 @@ function loginUser($connection)
                 } else {
                     if ($data[0]['state'] == 1) {
                         $userRole = $data[0]['role'];
+                        $userId = $data[0]['id'];
                         $sql = "UPDATE `users` SET `lastVisitDate` = '" . date("Y/n/d H:i:s") . "' WHERE `users`.`id` = " . $data[0]['id'] . "";
                         $result = $connection->query($sql);
                         switch ($userRole) {

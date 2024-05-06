@@ -1,7 +1,8 @@
 <?php
 
 $citiesFieldsAllowed = [
-    "name"
+    "name",
+    "points"
 ];
 
 function routeCities($method, $connection){
