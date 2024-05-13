@@ -12,7 +12,10 @@ function executeConsult($connection, $sql){
                 $data[] = $row;
             }
             
-            echo json_encode($data);
+            $response = new stdClass();
+            $response->status = 200;
+            $response->data = $data;
+            echo json_encode($response);
         }
     } catch (Exception $e) {
         returnResponse($SQL_ERROR_CODE, $e->getMessage());

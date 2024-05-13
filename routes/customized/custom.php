@@ -5,7 +5,7 @@ function routeCustom($method, $connection){
     global $queryId;
 
     switch ($method) {
-        case "GET":
+        case "POST":
             consultCustom($connection, $queryId);
             break;
     }
