@@ -24,6 +24,18 @@ function router($route)
         case 'users_roles':
             routeUsersRoles($method, $connection);
             break;
+        case 'nequi_accounts':
+            routeNequi($method, $connection, 'id');
+            break;
+        case 'nequi_accounts_by_user':
+            routeNequi($method, $connection, 'user');
+            break;
+        case 'bancolombia_accounts':
+            routeBancolombia($method, $connection, 'id');
+            break;
+        case 'bancolombia_accounts_by_user':
+            routeBancolombia($method, $connection, 'user');
+            break;
         case 'products':
             routeProducts($method, $connection);
             break;

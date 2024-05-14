@@ -2,6 +2,7 @@
 
 function executeConsult($connection, $sql){
     global $SQL_ERROR_CODE;
+    global $isCustom;
 
     try {
         $result = $connection->query($sql);
@@ -12,10 +13,14 @@ function executeConsult($connection, $sql){
                 $data[] = $row;
             }
             
-            $response = new stdClass();
-            $response->status = 200;
-            $response->data = $data;
-            echo json_encode($response);
+            if($isCustom == true){
+                $response = new stdClass();
+                $response->status = 200;
+                $response->data = $data;
+                echo json_encode($response);
+            }else{
+                echo json_encode($data);
+            }
         }
     } catch (Exception $e) {
         returnResponse($SQL_ERROR_CODE, $e->getMessage());

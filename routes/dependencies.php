@@ -15,3 +15,5 @@ include "./routes/users/comments.php";
 include "./routes/shipments/shipments.php";
 include "./routes/shipments/companies.php";
 include "./routes/earnings/earnings.php";
+include "./routes/users/nequiAccounts.php";
+include "./routes/users/bancolombiaAccounts.php";
