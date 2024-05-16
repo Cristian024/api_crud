@@ -4,7 +4,7 @@ $ordersDetailFieldsAllowed = [
     'quantity',
     'totalPrice',
     'product',
-    'orderid'
+    'orderId'
 ];
 
 function routeOrdersDetail($method, $connection){
