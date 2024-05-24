@@ -43,9 +43,7 @@ function consultShipments($connection, $queryId){
     s.company AS 'company',
     c.name AS 'companyName',
     ci.name AS 'companyCity',
-    s.orderid AS 'order',
-    s.delivery AS 'delivery',
-    u.name AS 'deliveryName'
+    s.orderid AS 'order'
     FROM shipments AS s
     LEFT JOIN shipments_states AS st ON s.state = st.id
     LEFT JOIN companies AS c ON s.company = c.id

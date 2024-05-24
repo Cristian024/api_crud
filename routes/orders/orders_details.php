@@ -7,12 +7,12 @@ $ordersDetailFieldsAllowed = [
     'orderId'
 ];
 
-function routeOrdersDetail($method, $connection){
+function routeOrdersDetail($method, $connection, $field){
     global $queryId;
 
     switch ($method) {
         case "GET":
-            consultOrdersDetail($connection, $queryId);
+            consultOrdersDetail($connection, $queryId, $field);
             break;
         case "POST":
             insertOrdersDetail($connection);
@@ -26,7 +26,7 @@ function routeOrdersDetail($method, $connection){
     }
 }
 
-function consultOrdersDetail($connection, $queryId){
+function consultOrdersDetail($connection, $queryId, $field){
     $sql = "SELECT 
     d.id AS 'id',
     d.quantity AS 'quantity',
@@ -39,7 +39,7 @@ function consultOrdersDetail($connection, $queryId){
     LEFT JOIN products AS p ON d.product = p.id
     ";
 
-    if($queryId !== null) $sql .= " WHERE d.id = $queryId";
+    if($queryId !== null) $sql .= " WHERE d.$field = $queryId";
 
     executeConsult($connection, $sql);
 }

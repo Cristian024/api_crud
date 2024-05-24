@@ -35,13 +35,14 @@ function consultLot($connection, $queryId)
         l.quantityStored AS 'quantityStored',
         l.depot AS 'depot',
         d.name AS 'depotName',
+        c.id AS 'depotCityId',
         c.name AS 'depotCity',
         l.product AS 'product',
         p.name AS 'productName'
         FROM lot AS l
-        INNER JOIN depot AS d ON l.depot = d.id
-        INNER JOIN products AS p ON l.product = p.id
-        INNER JOIN cities AS c ON d.city = c.id
+        LEFT JOIN depot AS d ON l.depot = d.id
+        LEFT JOIN products AS p ON l.product = p.id
+        LEFT JOIN cities AS c ON d.city = c.id
     ";
 
     if ($queryId !== null)

@@ -8,12 +8,12 @@ $depotFieldsAllowed = [
     'city'
 ];
 
-function routeDepot($method, $connection){
+function routeDepot($method, $connection, $field){
     global $queryId;
 
     switch ($method) {
         case "GET":
-            consultDepot($connection, $queryId);
+            consultDepot($connection, $queryId, $field);
             break;
         case "POST":
             insertDepot($connection);
@@ -27,7 +27,7 @@ function routeDepot($method, $connection){
     }
 }
 
-function consultDepot($connection, $queryId){
+function consultDepot($connection, $queryId, $field){
     $sql = "SELECT 
     d.id AS 'id',
     d.name AS 'name',
@@ -42,7 +42,7 @@ function consultDepot($connection, $queryId){
     LEFT JOIN cities AS c ON d.city = c.id    
     ";
 
-    if($queryId !==null) $sql .= " WHERE d.id = $queryId";
+    if($queryId !==null) $sql .= " WHERE d.$field = $queryId";
 
     executeConsult($connection, $sql);
 }

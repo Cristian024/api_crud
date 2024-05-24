@@ -8,12 +8,12 @@ $companiesFieldsAllowed = [
     'city'
 ];
 
-function routeCompanies($method, $connection){
+function routeCompanies($method, $connection, $field){
     global $queryId;
 
     switch ($method) {
         case 'GET':
-            consultCompanies($connection, $queryId);
+            consultCompanies($connection, $queryId, $field);
             break;
         case 'POST':
             insertCompanie($connection);
@@ -27,7 +27,7 @@ function routeCompanies($method, $connection){
     }
 }
 
-function consultCompanies($connection, $queryId){
+function consultCompanies($connection, $queryId, $field){
     $sql = "SELECT
     c.id AS 'id',
     c.name AS 'name',
@@ -40,7 +40,7 @@ function consultCompanies($connection, $queryId){
     INNER JOIN cities AS ci ON c.city = ci.id
     ";
 
-    if($queryId !== null) $sql .= " WHERE c.id = $queryId";
+    if($queryId !== null) $sql .= " WHERE c.$field = $queryId";
 
     executeConsult($connection, $sql);
 }
